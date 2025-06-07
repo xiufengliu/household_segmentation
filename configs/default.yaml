@@ -1,0 +1,95 @@
+# Default configuration for household energy segmentation
+
+# Model configuration
+model:
+  embedding_dim: 10
+  n_clusters: 3
+  batch_size: 32
+  learning_rate: 0.001
+  epochs: 50
+  patience: 10
+  random_state: 42
+
+# Data configuration
+data:
+  n_timesteps: 24
+  n_load_features: 1
+  n_weather_features: 2
+  normalization_method: "minmax"  # "minmax", "zscore", "robust"
+  train_test_split: 0.8
+  validation_split: 0.2
+
+# Training configuration
+training:
+  autoencoder_epochs: 50
+  clustering_epochs: 30
+  update_interval: 1
+  tolerance: 0.001
+  verbose: 1
+  save_checkpoints: true
+  checkpoint_dir: "checkpoints"
+
+# Evaluation configuration
+evaluation:
+  metrics:
+    - "silhouette_score"
+    - "davies_bouldin_score"
+    - "calinski_harabasz_score"
+  statistical_tests: true
+  significance_level: 0.05
+  n_bootstrap: 1000
+  visualization: true
+
+# Attention mechanism configuration
+attention:
+  num_heads: 4
+  key_dim: 64
+  dropout: 0.1
+  use_bias: true
+
+# Weather fusion configuration
+weather_fusion:
+  load_filters: [16, 8]
+  weather_filters: [8, 4]
+  attention_dim: 64
+  fusion_method: "cross_modal_attention"
+
+# Clustering algorithm specific parameters
+clustering_params:
+  sax_kmeans:
+    word_size: 24
+    alphabet_size: 20
+    max_iterations: 100
+  
+  two_stage_kmeans:
+    k_consumption: 3
+    k_peaktime: 2
+    dx: 0.25
+  
+  dec:
+    alpha: 1.0
+    update_interval: 1
+    tolerance: 0.001
+
+# Synthetic data generation parameters
+synthetic_data:
+  num_samples: 100
+  noise_level: 0.1
+  peak_probability: 0.8
+  seasonal_amplitude: 0.3
+  trend_strength: 0.1
+  correlation_strength: 0.3
+
+# Paths configuration
+paths:
+  data_dir: "data"
+  models_dir: "models"
+  results_dir: "results"
+  logs_dir: "logs"
+  checkpoints_dir: "checkpoints"
+
+# Logging configuration
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: null  # Set to file path to enable file logging
